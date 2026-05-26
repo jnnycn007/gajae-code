@@ -64,8 +64,15 @@
 			"!**/docs-index.generated.ts",
 			"!**/gen/agent_pb.ts",
 			"!.worktrees/**/*",
-			"!.wt/**/*"
+			"!.wt/**/*",
+			"!.omx/**/*"
 		]
 	},
-	"assist": { "actions": { "source": { "organizeImports": "on" } } }
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
 }

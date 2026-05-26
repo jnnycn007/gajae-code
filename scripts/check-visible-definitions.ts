@@ -5,7 +5,7 @@ import * as path from "node:path";
 const expected = ["deep-interview", "ralplan", "team", "ultragoal"];
 const repoRoot = process.cwd();
 
-function listDirs(dir: string): string[] {
+function listSkillDirs(dir: string): string[] {
 	const full = path.join(repoRoot, dir);
 	if (!fs.existsSync(full)) return [];
 	return fs
@@ -14,21 +14,27 @@ function listDirs(dir: string): string[] {
 		.map(entry => entry.name);
 }
 
-function listFiles(dir: string, extension: string): string[] {
+function listDefinitionFiles(dir: string, extensions: readonly string[]): string[] {
 	const full = path.join(repoRoot, dir);
 	if (!fs.existsSync(full)) return [];
 	return fs
 		.readdirSync(full, { withFileTypes: true })
-		.filter(entry => entry.isFile() && entry.name.endsWith(extension))
-		.map(entry => entry.name.slice(0, -extension.length));
+		.filter(entry => entry.isFile() && extensions.some(extension => entry.name.endsWith(extension)))
+		.map(entry => {
+			const extension = extensions.find(candidate => entry.name.endsWith(candidate));
+			return extension ? entry.name.slice(0, -extension.length) : entry.name;
+		});
 }
 
 const visible = [
-	...listDirs(".omp/skills"),
-	...listDirs(".codex/skills"),
-	...listDirs(".codex/agents"),
-	...listFiles(".omp/commands", ".md"),
-	...listFiles(".codex/commands", ".md"),
+	...listSkillDirs(".omp/skills"),
+	...listSkillDirs(".codex/skills"),
+	...listDefinitionFiles(".omp/agents", [".md", ".toml"]),
+	...listDefinitionFiles(".codex/agents", [".md", ".toml"]),
+	...listDefinitionFiles(".omp/commands", [".md"]),
+	...listDefinitionFiles(".codex/commands", [".md"]),
+	...listDefinitionFiles(".omp/rules", [".md"]),
+	...listDefinitionFiles(".codex/rules", [".md"]),
 ].sort();
 
 const unexpected = visible.filter(name => !expected.includes(name));

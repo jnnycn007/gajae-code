@@ -250,7 +250,11 @@ async function printVerification(expectedVersion: string): Promise<void> {
 		return;
 	}
 	console.log(chalk.yellow(`\nWarning: ${formatVerificationFailure(result, expectedVersion)}`));
-	console.log(chalk.yellow(`You may need to reinstall: curl -fsSL https://omp.sh/install | sh`));
+	console.log(
+		chalk.yellow(
+			`You may need to reinstall: curl -fsSL https://raw.githubusercontent.com/can1357/gajae-code/main/scripts/install.sh | sh`,
+		),
+	);
 }
 
 async function unlinkIfExists(filePath: string): Promise<void> {

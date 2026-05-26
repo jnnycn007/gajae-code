@@ -76,7 +76,16 @@ async function verifyRebrandSurface(): Promise<GateResult> {
 }
 
 async function verifyVisibleDefinitions(): Promise<GateResult> {
-	const visibleDefinitionRoots = [".omp/skills", ".omp/commands", ".codex/skills", ".codex/agents"];
+	const visibleDefinitionRoots = [
+		".omp/skills",
+		".codex/skills",
+		".omp/agents",
+		".codex/agents",
+		".omp/commands",
+		".codex/commands",
+		".omp/rules",
+		".codex/rules",
+	];
 	const discovered = new Set<string>();
 	const details: string[] = [];
 
